@@ -36,7 +36,7 @@ def encode(image) -> str:
     # convert image to bytes
     with BytesIO() as output_bytes:
         PIL_image = Image.fromarray(skimage.img_as_ubyte(image))
-        PIL_image.save(output_bytes, 'JPEG')  # Note JPG is not a vaild type here
+        PIL_image.save(output_bytes, 'PNG')  # Note JPG is not a vaild type here
         bytes_data = output_bytes.getvalue()
 
     # encode bytes to base64 string
@@ -51,17 +51,24 @@ def runUnet(data, model, chan, classes, layers, features):
 
     net = unet.Unet(channels=chan, n_class=classes, layers=layers, features_root=features)
 
+    print(img)
+
     ny = img.shape[0]
     nx = img.shape[1]
+
     img = img.reshape(1, ny, nx, 1)
     img -= np.amin(img)
     img /= np.amax(img)
 
     prediction = net.predict(model, img)
 
+    prediction = util.expand_to_shape(prediction, [1, ny, nx,classes])
+
     mask = prediction[0, ..., 1] > 0.1
 
-    data["data"] = encode(img_as_uint(mask))
+    data["data"] = encode(mask)
+
+    print(data)
 
     return data
 
@@ -95,6 +102,16 @@ def unet_graft4():
     message = request.get_json(force=True)
     return runUnet(message, "model/graft_f24_s3000_e20_graft/model.ckpt", 1, 2, 3, 24)
 
+
+@app.route('/unetg5', methods=["POST"])
+def unet_graft5():
+    message = request.get_json(force=True)
+    return runUnet(message, "model/8k_26_6000_host/model.ckpt", 1, 2, 3, 26)
+
+@app.route('/graft1', methods=["POST"])
+def unet_graft1():
+    message = request.get_json(force=True)
+    return runUnet(message, "model/6k_26_6000_26_graft/model.ckpt", 1, 2, 3, 26)
 
 if __name__ == '__main__':
     app.run()
