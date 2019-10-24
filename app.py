@@ -64,7 +64,7 @@ def runUnet(data, model, chan, classes, layers, features):
 
     prediction = util.expand_to_shape(prediction, [1, ny, nx,classes])
 
-    mask = prediction[0, ..., 1] > 0.1
+    mask = prediction[0, ..., 1]
 
     data["data"] = encode(mask)
 
