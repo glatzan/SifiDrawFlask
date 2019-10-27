@@ -114,4 +114,6 @@ def unet_graft1():
     return runUnet(message, "model/6k_26_6000_26_graft/model.ckpt", 1, 2, 3, 26)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')
+
+#/home/andi/.conda/envs/falskenv

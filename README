@@ -1,0 +1,3 @@
+conda install flask
+conda install flask-cors
+conda install scikit-image
