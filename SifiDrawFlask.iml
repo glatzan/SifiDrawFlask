@@ -3,10 +3,7 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$" />
-    <orderEntry type="jdk" jdkName="Python 3.7 (flaskenv)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.7 (SifiDraw)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-  </component>
-  <component name="PyDocumentationSettings">
-    <option name="renderExternalDocumentation" value="true" />
   </component>
 </module>
